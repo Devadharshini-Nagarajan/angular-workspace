@@ -1,0 +1,56 @@
+<div class="d-flex align-items-center justify-content-center">
+  <div class="w-50">
+    <mat-card appearance="outlined">
+      <mat-card-header
+        ><mat-card-title>Create Account</mat-card-title></mat-card-header
+      >
+      <mat-card-content
+        ><form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-5">
+          <div class="row">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+              @if(form.get('email')?.invalid &&
+              form.get('email')?.hasError('required')){
+              <mat-error>Email is required</mat-error>}
+              @if(form.get('email')?.invalid &&
+              form.get('email')?.hasError('email')){
+              <mat-error>Email is invalid</mat-error>}
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field>
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" />
+              @if(form.get('username')?.invalid &&
+              form.get('username')?.hasError('required')){
+              <mat-error>Username is required</mat-error>}
+            </mat-form-field>
+          </div>
+
+          <div class="row mt-2">
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" />
+              @if(form.get('password')?.invalid &&
+              form.get('password')?.hasError('required')){
+              <mat-error>Password is required</mat-error>}
+              @if(form.get('password')?.invalid &&
+              form.get('password')?.hasError('minlength')){
+              <mat-error>Password must be at least 6 characters</mat-error>}
+            </mat-form-field>
+          </div>
+          <div class="d-flex justify-content-center mt-2">
+            <button mat-flat-button type="submit" [disabled]="form.invalid">
+              Submit
+            </button>
+          </div>
+          <div class="d-flex justify-content-center mt-2">
+            <span (click)="switchToSignIn()">Have an account? Sign In!</span>
+          </div>
+        </form></mat-card-content
+      >
+    </mat-card>
+  </div>
+</div>

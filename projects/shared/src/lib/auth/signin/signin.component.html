@@ -1,0 +1,55 @@
+<div class="d-flex align-items-center justify-content-center">
+  <div class="w-50">
+    @if (isSignIn()) {
+    <mat-card appearance="outlined">
+      <mat-card-header
+        ><mat-card-title>Sign In</mat-card-title></mat-card-header
+      >
+      <mat-card-content
+        ><form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-5">
+          <div class="row pb-3">
+            <mat-error>{{ apiError }}</mat-error>
+          </div>
+          <div class="row">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+              @if(form.get('email')?.invalid &&
+              form.get('email')?.hasError('required')){
+              <mat-error>Email is required</mat-error>}
+              @if(form.get('email')?.invalid &&
+              form.get('email')?.hasError('email')){
+              <mat-error>Email is invalid</mat-error>}
+            </mat-form-field>
+          </div>
+
+          <div class="row mt-2">
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" />
+              @if(form.get('password')?.invalid &&
+              form.get('password')?.hasError('required')){
+              <mat-error>Password is required</mat-error>}
+              @if(form.get('password')?.invalid &&
+              form.get('password')?.hasError('minlength')){
+              <mat-error>Password must be at least 6 characters</mat-error>}
+            </mat-form-field>
+          </div>
+          <div class="d-flex justify-content-center mt-2">
+            <button mat-flat-button type="submit" [disabled]="form.invalid">
+              Submit
+            </button>
+          </div>
+          <div class="d-flex justify-content-center mt-2">
+            <span (click)="toggleSignIn()"
+              >Don't have an account? Create one!</span
+            >
+          </div>
+        </form></mat-card-content
+      >
+    </mat-card>
+    } @else {
+    <lib-signup (toggle)="toggleSignIn()"></lib-signup>
+    }
+  </div>
+</div>

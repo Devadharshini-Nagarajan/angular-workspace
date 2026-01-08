@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SignupComponent } from '../signup/signup.component';
 import { AuthService } from '../auth.service';
 import { catchError, finalize, tap, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../../utils/loading.service';
 
@@ -33,6 +33,7 @@ import { LoadingService } from '../../utils/loading.service';
     MatCardModule,
     MatButtonModule,
     SignupComponent,
+    RouterModule
   ],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss',
@@ -45,7 +46,6 @@ export class SigninComponent implements OnInit {
 
   form!: FormGroup;
   apiError: string = '';
-  isSignIn: WritableSignal<boolean> = signal(true);
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -55,10 +55,6 @@ export class SigninComponent implements OnInit {
         // Validators.minLength(6),
       ]),
     });
-  }
-
-  toggleSignIn() {
-    this.isSignIn.update((value) => !value);
   }
 
   onSubmit() {

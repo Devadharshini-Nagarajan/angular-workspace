@@ -4,14 +4,8 @@
   <div class="spinner-overlay">
     <mat-spinner></mat-spinner>
   </div>
-  } @else {
+  }
   <div class="page-content">
-    @if((authService.isAuthenticated$) | async) {
-    <h2>Welcome to Fin Buddy!</h2>
-    } @else {
-    <h2>Curious Sign up for it!</h2>
-    }
     <router-outlet></router-outlet>
   </div>
-  }
 </lib-layout>

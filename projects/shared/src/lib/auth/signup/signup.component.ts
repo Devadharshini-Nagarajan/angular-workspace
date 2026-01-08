@@ -11,7 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
-import { tap } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
+import { LoadingService } from '../../utils/loading.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'lib-signup',
@@ -21,6 +23,7 @@ import { tap } from 'rxjs';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    RouterModule
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
@@ -28,9 +31,11 @@ import { tap } from 'rxjs';
 export class SignupComponent implements OnInit {
   private authService = inject(AuthService);
   private _snackBar = inject(MatSnackBar);
+  private loadingService = inject(LoadingService);
+  private router = inject(Router);
 
   form!: FormGroup;
-  toggle = output<void>();
+  apiError: string = '';
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -43,19 +48,27 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  switchToSignIn() {
-    this.toggle.emit();
-  }
-
   onSubmit() {
+    if(!this.form.valid) {
+      return;
+    }
+    this.loadingService.setLoadingStatus({ fullPageLoading: true });
     this.authService
-      .signIn(this.form.value)
+      .signUp(this.form.value)
       .pipe(
         tap((response: any) => {
           this._snackBar.open('You can successfully login now!', 'Close', {
             duration: 3000,
           });
-          this.toggle.emit();
+          this.router.navigate(['/auth/signin']);
+        }),
+        catchError((error: any) => {
+          console.log('Signup error:', error);
+          this.apiError = error.error?.response.message || 'An error occurred.';
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.loadingService.setLoadingStatus({ fullPageLoading: false });
         })
       )
       .subscribe();

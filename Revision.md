@@ -28,3 +28,5 @@ TODO:
 - how intial load vhecks if token there - COOP
 - localstorage save - COOP
 - common Loading service - COOP
+- token failure redirect signout - high level
+- table scrollable, pagination

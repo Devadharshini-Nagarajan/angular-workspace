@@ -1,11 +1,14 @@
 <div class="d-flex align-items-center justify-content-center">
-  <div class="w-50">
+  <div class="">
     <mat-card appearance="outlined">
       <mat-card-header
         ><mat-card-title>Create Account</mat-card-title></mat-card-header
       >
       <mat-card-content
-        ><form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-5">
+        ><form [formGroup]="form" class="p-5">
+          <div class="row pb-3">
+            <mat-error>{{ apiError }}</mat-error>
+          </div>
           <div class="row">
             <mat-form-field>
               <mat-label>Email</mat-label>
@@ -42,12 +45,12 @@
             </mat-form-field>
           </div>
           <div class="d-flex justify-content-center mt-2">
-            <button mat-flat-button type="submit" [disabled]="form.invalid">
+            <button mat-flat-button type="submit" (click)="onSubmit()" [disabled]="form.invalid">
               Submit
             </button>
           </div>
           <div class="d-flex justify-content-center mt-2">
-            <span (click)="switchToSignIn()">Have an account? Sign In!</span>
+            <span [routerLink]="'/auth/signin'">Have an account? Sign In!</span>
           </div>
         </form></mat-card-content
       >

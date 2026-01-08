@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 @Injectable({
@@ -31,6 +31,12 @@ export class AuthService {
             username: data.username,
           });
           this.isAuthenticated.next(true);
+        }),
+        catchError((error: any) => {
+          if (error.status === 401) {
+            this.signOut();
+          }
+          return of(null);
         })
       )
     }
@@ -56,9 +62,7 @@ export class AuthService {
   signUp(body: any): Observable<any> {
     return this.http.post('http://localhost:3000/api/auth/signup', body).pipe(
       tap((data: any) => {
-        if (data.id) {
-          // success toast
-        }
+        console.log('User signed up:', data);
       })
     );
   }

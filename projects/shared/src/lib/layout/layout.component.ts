@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AuthService } from '../auth';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'lib-layout',
@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 })
 export class LayoutComponent {
   authService = inject(AuthService);
+  private router = inject(Router);
 
   items = input<any>();
   opened: boolean = false;
@@ -36,5 +37,10 @@ export class LayoutComponent {
 
   onSignOut() {
     this.authService.signOut();
+  }
+
+  onItemClick(url: string) {
+    this.router.navigate([url]);
+    this.toggleOpened();
   }
 }

@@ -30,3 +30,6 @@ TODO:
 - common Loading service - COOP
 - token failure redirect signout - high level
 - table scrollable, pagination
+- KO when 401 anywhere
+- make header in api common somewhere
+- add budget income vs limit in detail

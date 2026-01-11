@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { MainComponent } from './main/main.component';
 import { authGuard } from '../../../shared/src/public-api';
+import { BudgetComponent } from './budget/budget.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,11 @@ export const routes: Routes = [
   {
     path: 'categories',
     component: CategoryListComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+  },
+  {
+    path: 'budget',
+    component: BudgetComponent,
+    canActivate: [authGuard],
   },
 ];

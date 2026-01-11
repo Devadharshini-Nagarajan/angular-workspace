@@ -9,3 +9,4 @@ export * from './lib/layout/layout.component';
 export * from './lib/utils/local-storage.service';
 export * from './lib/utils/loading.service';
 export * from './lib/utils/utils.model';
+export * from './lib/utils/utils';

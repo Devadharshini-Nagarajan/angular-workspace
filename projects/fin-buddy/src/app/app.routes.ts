@@ -3,6 +3,7 @@ import { CategoryListComponent } from './categories/category-list/category-list.
 import { MainComponent } from './main/main.component';
 import { authGuard } from '../../../shared/src/public-api';
 import { BudgetComponent } from './budget/budget.component';
+import { ItemComponent } from './items/item/item.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,11 @@ export const routes: Routes = [
   {
     path: 'budget',
     component: BudgetComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'items',
+    component: ItemComponent,
     canActivate: [authGuard],
   },
 ];

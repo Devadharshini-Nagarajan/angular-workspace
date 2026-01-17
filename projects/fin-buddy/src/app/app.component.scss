@@ -1,14 +1,13 @@
-/* Spinner overlay styles */
-.spinner-overlay {
-	position: fixed;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: rgba(255, 255, 255, 0.6);
-	z-index: 1200;
+.page-content {
+  min-height: calc(100vh - 64px);
 }
 
-.page-content {
-	/* ensure content remains interactive/visible under overlay */
+.spinner-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
 }

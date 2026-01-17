@@ -20,6 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BudgetCategoryComponent } from './budget-category/budget-category.component';
 import { BudgetCategory } from './budget.model';
+import { MatIconModule } from '@angular/material/icon';
 
 const moment = _moment;
 
@@ -47,6 +48,7 @@ export const MY_FORMATS = {
     MatDividerModule,
     MatDialogModule,
     BudgetCategoryComponent,
+    MatIconModule,
   ],
   templateUrl: './budget.component.html',
   styleUrl: './budget.component.scss',
@@ -57,7 +59,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
   private loadingService = inject(LoadingService);
   public budgetService = inject(BudgetService);
 
-  currbudget = computed(() => this.budgetService._budgetWithCategories()?.budget ?? {});
+  currbudget = computed(() => this.budgetService._budgetWithCategories()?.budget ?? null);
   date = new FormControl();
   private readonly now = new Date();
   budgetForm!: FormGroup;

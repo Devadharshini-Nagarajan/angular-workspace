@@ -1,15 +1,9 @@
-<div>
-  <div class="row">
+<div class="budget-page">
+  <div class="budget-top row align-items-end">
     <div class="col-md-6">
-      <mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Month and Year</mat-label>
-        <input
-          matInput
-          [min]="minDate"
-          [max]="maxDate"
-          [matDatepicker]="dp"
-          [formControl]="date"
-        />
+        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp" [formControl]="date" />
         <mat-hint>MM/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker
@@ -17,67 +11,82 @@
           startView="multi-year"
           (monthSelected)="setMonthAndYear($event, dp)"
           panelClass="example-month-picker"
-        >
-        </mat-datepicker>
+        ></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="col-md-6">
-      <button mat-flat-button color="primary" (click)="onGenerateBudget()">
+
+    <div class="col-md-6 budget-go">
+      <button mat-flat-button color="primary" class="go-btn" (click)="onGenerateBudget()">
         Go
       </button>
     </div>
   </div>
 
-  @if(showBudgetHint()) {
-  <div class="budget-hint">
-    💡 Looks like your category limits and savings together are a bit higher
-    than your income. You might want to adjust them for better planning and
-    smoother usage of the budget tool.
-  </div>
-  } @if(currbudget()) {
-  <div>
-    <mat-card appearance="outlined" class="my-5">
-      <mat-card-header>
-        <mat-card-title>Monthly Budget</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form [formGroup]="budgetForm" class="mt-3">
-          <div class="row">
-            <mat-form-field appearance="fill" class="full-width">
+  @if (showBudgetHint()) {
+    <div class="budget-hint" role="note" aria-live="polite">
+      <mat-icon aria-hidden="true">info</mat-icon>
+      <div>
+        <div class="hint-title">Budget tip</div>
+        <div class="hint-text">
+          Looks like your category limits and savings together are a bit higher than your income.
+          You might want to adjust them for better planning and smoother usage of the budget tool.
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (currbudget()) {
+    <div class="budget-content">
+      <mat-card appearance="outlined" class="budget-card">
+        <mat-card-header class="budget-card-header">
+          <mat-card-title>Monthly Budget</mat-card-title>
+          <mat-card-subtitle
+            >Set income, savings target, and notes for this month</mat-card-subtitle
+          >
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup]="budgetForm" class="budget-form">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Income</mat-label>
               <input matInput type="number" formControlName="income" />
             </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="fill" class="full-width">
+
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Target Savings</mat-label>
               <input matInput type="number" formControlName="targetSavings" />
             </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Notes</mat-label>
-              <input matInput rows="4" formControlName="note" />
-            </mat-form-field>
-          </div>
-          <div class="row d-flex justify-content-end">
-            <button
-              mat-flat-button
-              class="w-auto"
-              color="primary"
-              (click)="onSaveBudget()"
-              [disabled]="budgetForm.invalid"
-            >
-              Save Budget
-            </button>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
 
-    <app-budget-category></app-budget-category>
-  </div>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Notes</mat-label>
+              <textarea matInput rows="3" formControlName="note"></textarea>
+            </mat-form-field>
+
+            <div class="actions-row">
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="onSaveBudget()"
+                [disabled]="budgetForm.invalid"
+              >
+                Save Budget
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="mt-4">
+        <app-budget-category></app-budget-category>
+      </div>
+    </div>
   } @else {
-  <div class="mt-5">Please select Year and Month to see the budget!</div>
+    <div class="empty-state mt-5">
+      <mat-icon aria-hidden="true">event</mat-icon>
+      <div>
+        <div class="empty-title">Select a month to continue</div>
+        <div class="empty-text">Choose a year and month to view or create your budget.</div>
+      </div>
+    </div>
   }
 </div>

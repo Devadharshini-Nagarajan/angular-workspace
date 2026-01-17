@@ -21,6 +21,7 @@ import { CategoriesService } from '../../categories/categories.service';
 import { BudgetService } from '../budget.service';
 import { Category } from '../../categories/category.model';
 import { Budget, BudgetCategory, createBudgetCategory } from '../budget.model';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-budget-category',
@@ -33,6 +34,7 @@ import { Budget, BudgetCategory, createBudgetCategory } from '../budget.model';
     MatCardModule,
     MatDividerModule,
     MatDialogModule,
+    MatIconModule,
   ],
   templateUrl: './budget-category.component.html',
   styleUrl: './budget-category.component.scss',

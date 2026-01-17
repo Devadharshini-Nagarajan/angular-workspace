@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     { name: 'Categories', route: '/categories' },
     { name: 'Budget', route: '/budget' },
     { name: 'Items', route: '/items' },
-  ]
+  ];
 
   ngOnInit() {
     this.authService.loadUserFromLocalStorage().subscribe();

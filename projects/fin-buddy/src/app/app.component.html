@@ -1,9 +1,9 @@
 <lib-layout [items]="items">
   @let loadState = loadingService.loadingState$ | async;
-  @if(loadState?.fullPageLoading) {
-  <div class="spinner-overlay">
-    <mat-spinner></mat-spinner>
-  </div>
+  @if (loadState?.fullPageLoading) {
+    <div class="spinner-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
   }
   <div class="page-content">
     <router-outlet></router-outlet>

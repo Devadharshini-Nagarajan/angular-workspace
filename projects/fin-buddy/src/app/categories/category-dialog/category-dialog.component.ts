@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CategoriesService } from '../categories.service';
-import { catchError, finalize, tap } from 'rxjs';
+import { catchError, finalize } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -37,13 +37,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class CategoryDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
-  readonly data = inject<any>(MAT_DIALOG_DATA);
+  readonly data = inject(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
   private categoriesService = inject(CategoriesService);
 
-  form!: any;
-  apiError: string = '';
-  loading: boolean = false;
+  form!: FormGroup;
+  apiError = '';
+  loading = false;
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -66,20 +66,15 @@ export class CategoryDialogComponent implements OnInit {
       : this.categoriesService.createCategory(this.form.value);
     req
       .pipe(
-        tap((response: any) => {
-          console.log('Category saved successfully:', response);
-        }),
-        catchError((error: any) => {
+        catchError((error) => {
           this.apiError = error.error?.response.message || 'An error occurred.';
           return [];
         }),
         finalize(() => {
           this.loading = false;
           this.dialogRef.close();
-        })
+        }),
       )
-      .subscribe((response: any) => {
-        this.dialogRef.close(response);
-      });
+      .subscribe();
   }
 }

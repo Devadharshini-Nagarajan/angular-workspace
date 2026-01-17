@@ -8,11 +8,13 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "prepare": "husky"
   },
   "lint-staged": {
+    "*.{ts,js}": "npx eslint --fix",
     "*.{ts,js,html,scss,css,md,json,yml,yaml}": "npx prettier --write"
   },
   "private": true,

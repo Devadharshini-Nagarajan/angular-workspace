@@ -1,20 +1,11 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import _moment, { Moment } from 'moment';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import {
-  MatDatepicker,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import {
   FormBuilder,
   FormControl,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -28,6 +19,7 @@ import { finalize } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BudgetCategoryComponent } from './budget-category/budget-category.component';
+import { BudgetCategory } from './budget.model';
 
 const moment = _moment;
 
@@ -65,25 +57,14 @@ export class BudgetComponent implements OnInit, OnDestroy {
   private loadingService = inject(LoadingService);
   public budgetService = inject(BudgetService);
 
-  currbudget = computed(
-    () => this.budgetService._budgetWithCategories().budget
-  );
+  currbudget = computed(() => this.budgetService._budgetWithCategories()?.budget ?? {});
   date = new FormControl();
   private readonly now = new Date();
-  budgetForm!: any;
-  addActiveCategories: any = [];
+  budgetForm!: FormGroup;
 
-  readonly minDate = new Date(
-    this.now.getFullYear() - 1,
-    this.now.getMonth(),
-    this.now.getDate()
-  );
+  readonly minDate = new Date(this.now.getFullYear() - 1, this.now.getMonth(), this.now.getDate());
 
-  readonly maxDate = new Date(
-    this.now.getFullYear(),
-    this.now.getMonth() + 6,
-    this.now.getDate()
-  );
+  readonly maxDate = new Date(this.now.getFullYear(), this.now.getMonth() + 6, this.now.getDate());
   showBudgetHint = computed(() => {
     const state = this.budgetService._budgetWithCategories();
     if (!state?.budget) return false;
@@ -92,8 +73,8 @@ export class BudgetComponent implements OnInit, OnDestroy {
     const savings = Number(state.budget.targetSavings || 0);
 
     const totalCategoryLimit = (state.budgetCategories || []).reduce(
-      (sum: number, bc: any) => sum + Number(bc.limit || 0),
-      0
+      (sum: number, bc: BudgetCategory) => sum + Number(bc.limit || 0),
+      0,
     );
     return savings + totalCategoryLimit > income;
   });
@@ -110,7 +91,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
             targetSavings: bc.budget.targetSavings ?? '',
             note: bc.budget.note ?? '',
           },
-          { emitEvent: false }
+          { emitEvent: false },
         );
       }
     });
@@ -130,10 +111,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
     this.budgetForm.reset();
   }
 
-  setMonthAndYear(
-    normalizedMonthAndYear?: Moment,
-    datepicker?: MatDatepicker<Moment>
-  ) {
+  setMonthAndYear(normalizedMonthAndYear?: Moment, datepicker?: MatDatepicker<Moment>) {
     const ctrlValue = this.date.value ?? moment();
     if (normalizedMonthAndYear) {
       ctrlValue.month(normalizedMonthAndYear.month());
@@ -151,14 +129,14 @@ export class BudgetComponent implements OnInit, OnDestroy {
     if (!this.date.value) {
       return;
     }
-    let yearMonth = moment(this.date.value).format('YYYY-MM');
+    const yearMonth = moment(this.date.value).format('YYYY-MM');
     this.loadingService.setLoadingStatus({ fullPageLoading: true });
     this.budgetService
       .getBudgetWithCategories(yearMonth)
       .pipe(
         finalize(() => {
           this.loadingService.setLoadingStatus({ fullPageLoading: false });
-        })
+        }),
       )
       .subscribe();
   }
@@ -176,7 +154,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => {
           this.loadingService.setLoadingStatus({ fullPageLoading: false });
-        })
+        }),
       )
       .subscribe();
   }

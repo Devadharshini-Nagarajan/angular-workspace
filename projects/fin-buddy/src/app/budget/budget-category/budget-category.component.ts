@@ -1,10 +1,12 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit, Signal } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
   FormBuilder,
   Validators,
   FormGroup,
+  FormArray,
+  AbstractControl,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,6 +19,8 @@ import { GeneralDialogComponent } from '../../../../../shared/src/lib/ui/general
 import { LoadingService } from '../../../../../shared/src/public-api';
 import { CategoriesService } from '../../categories/categories.service';
 import { BudgetService } from '../budget.service';
+import { Category } from '../../categories/category.model';
+import { Budget, BudgetCategory, createBudgetCategory } from '../budget.model';
 
 @Component({
   selector: 'app-budget-category',
@@ -33,18 +37,18 @@ import { BudgetService } from '../budget.service';
   templateUrl: './budget-category.component.html',
   styleUrl: './budget-category.component.scss',
 })
-export class BudgetCategoryComponent {
+export class BudgetCategoryComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private loadingService = inject(LoadingService);
   public budgetService = inject(BudgetService);
   private categoriesService = inject(CategoriesService);
   private dialog = inject(MatDialog);
 
-  currbudget = computed(
-    () => this.budgetService._budgetWithCategories().budget
+  currbudget: Signal<Budget | null> = computed(
+    () => this.budgetService._budgetWithCategories()?.budget ?? null,
   );
-  categoryForm!: any;
-  addActiveCategories: any = [];
+  categoryForm!: FormGroup;
+  addActiveCategories: Category[] = [];
 
   constructor() {
     effect(() => {
@@ -68,13 +72,13 @@ export class BudgetCategoryComponent {
   }
 
   get rowsFA() {
-    return this.categoryForm.controls.rows;
+    return this.categoryForm.controls['rows'] as FormArray<FormGroup>;
   }
 
-  private rebuildRows(bcList: any) {
+  private rebuildRows(bcList: BudgetCategory[]) {
     this.rowsFA.clear({ emitEvent: false });
 
-    bcList.forEach((bc: any) => {
+    bcList.forEach((bc: BudgetCategory) => {
       this.rowsFA.push(this.createRow(bc), { emitEvent: false });
     });
 
@@ -82,14 +86,11 @@ export class BudgetCategoryComponent {
     this.categoryForm.markAsUntouched();
   }
 
-  private createRow(bc: any) {
+  private createRow(bc: BudgetCategory) {
     return this.fb.group({
       id: this.fb.nonNullable.control(bc.id),
       categoryId: this.fb.nonNullable.control(bc.categoryId),
-      limit: this.fb.nonNullable.control(bc.limit ?? 0, [
-        Validators.required,
-        Validators.min(0),
-      ]),
+      limit: this.fb.nonNullable.control(bc.limit ?? 0, [Validators.required, Validators.min(0)]),
       name: bc.category.name,
       description: bc.category.description,
       isActive: bc.category.isActive,
@@ -100,11 +101,11 @@ export class BudgetCategoryComponent {
     const budgetCategorySet = new Set(
       this.budgetService
         ._budgetWithCategories()
-        .budgetCategories.map((cat: any) => cat.categoryId)
+        ?.budgetCategories.map((cat: BudgetCategory) => cat.categoryId),
     );
     this.addActiveCategories = this.categoriesService
       ._categoriesList()
-      .filter((cat: any) => cat.isActive && !budgetCategorySet.has(cat.id));
+      .filter((cat: Category) => cat.isActive && !budgetCategorySet.has(cat.id));
   }
 
   onUpdateCategoryLimit() {
@@ -112,10 +113,11 @@ export class BudgetCategoryComponent {
     if (!this.categoryForm.valid) {
       return;
     }
-    const body = this.rowsFA.controls.map((ctrl: any) => {
+    const body: Partial<BudgetCategory>[] = this.rowsFA.controls.map((ctrl: AbstractControl) => {
+      const fg = ctrl as FormGroup;
       return {
-        id: ctrl.get('id').value,
-        limit: ctrl.get('limit').value,
+        id: fg.get('id')?.value,
+        limit: fg.get('limit')?.value,
       };
     });
     this.budgetService
@@ -123,7 +125,7 @@ export class BudgetCategoryComponent {
       .pipe(
         finalize(() => {
           this.loadingService.setLoadingStatus({ fullPageLoading: false });
-        })
+        }),
       )
       .subscribe();
   }
@@ -143,9 +145,9 @@ export class BudgetCategoryComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.loadingService.setLoadingStatus({ fullPageLoading: true });
-        const body = {
-          budgetId: this.currbudget().id,
-          categoryIds: this.addActiveCategories.map((el: any) => el.id),
+        const body: createBudgetCategory = {
+          budgetId: this.currbudget()?.id,
+          categoryIds: this.addActiveCategories.map((el) => el.id),
         };
         this.budgetService
           .createBudgetCategory(body)
@@ -155,7 +157,7 @@ export class BudgetCategoryComponent {
             }),
             finalize(() => {
               this.loadingService.setLoadingStatus({ fullPageLoading: false });
-            })
+            }),
           )
           .subscribe();
       }

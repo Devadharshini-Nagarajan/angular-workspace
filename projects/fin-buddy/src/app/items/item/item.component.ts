@@ -1,22 +1,13 @@
-import { Component, computed, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import {
-  MatDatepicker,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import _moment, { Moment } from 'moment';
 import { LoadingService } from '../../../../../shared/src/public-api';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ItemDialogComponent } from '../item-dialog/item-dialog.component';
 import { ItemsService } from '../items.service';
 import { finalize } from 'rxjs/operators';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -24,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { CategoriesService } from '../../categories/categories.service';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { Category } from '../../categories/category.model';
+import { Item } from '../item.model';
 
 const moment = _moment;
 export const MY_FORMATS = {
@@ -49,13 +42,13 @@ export const MY_FORMATS = {
     MatDividerModule,
     MatDialogModule,
     MatTableModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './item.component.html',
   styleUrl: './item.component.scss',
   providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
-export class ItemComponent {
+export class ItemComponent implements OnInit {
   private fb = inject(FormBuilder);
   private loadingService = inject(LoadingService);
   private itemsService = inject(ItemsService);
@@ -64,14 +57,14 @@ export class ItemComponent {
 
   categoryMap = computed(() => {
     const categories = this.categoriesService._categoriesList() ?? [];
-    return new Map<string, any>(categories.map((c: any) => [c.id, c]));
+    return new Map<string, Category>(categories.map((c: Category) => [c.id, c]));
   });
 
   itemsTableVM = computed(() => {
     const items = this.itemsService._items() ?? [];
     const catMap = this.categoryMap();
 
-    return items.map((item: any) => {
+    return items.map((item: Item) => {
       const category = catMap.get(item.categoryId);
 
       return {
@@ -85,26 +78,15 @@ export class ItemComponent {
   displayedColumns = ['name', 'category', 'amount', 'occurredAt', 'actions'];
   date = new FormControl();
   readonly now = new Date();
-  readonly minDate = new Date(
-    this.now.getFullYear() - 1,
-    this.now.getMonth(),
-    this.now.getDate()
-  );
+  readonly minDate = new Date(this.now.getFullYear() - 1, this.now.getMonth(), this.now.getDate());
 
-  readonly maxDate = new Date(
-    this.now.getFullYear(),
-    this.now.getMonth() + 6,
-    this.now.getDate()
-  );
+  readonly maxDate = new Date(this.now.getFullYear(), this.now.getMonth() + 6, this.now.getDate());
 
   ngOnInit() {
     this.setMonthAndYear();
   }
 
-  setMonthAndYear(
-    normalizedMonthAndYear?: Moment,
-    datepicker?: MatDatepicker<Moment>
-  ) {
+  setMonthAndYear(normalizedMonthAndYear?: Moment, datepicker?: MatDatepicker<Moment>) {
     const ctrlValue = this.date.value ?? moment();
     if (normalizedMonthAndYear) {
       ctrlValue.month(normalizedMonthAndYear.month());
@@ -117,7 +99,7 @@ export class ItemComponent {
     this.onGetItems();
   }
 
-  openDialog(element?: any) {
+  openDialog(element?: Item) {
     const dialogRef = this.dialog.open(ItemDialogComponent, {
       data: {
         element: element || null,
@@ -134,14 +116,14 @@ export class ItemComponent {
     if (!this.date.value) {
       return;
     }
-    let yearMonth = moment(this.date.value).format('YYYY-MM');
+    const yearMonth = moment(this.date.value).format('YYYY-MM');
     this.loadingService.setLoadingStatus({ fullPageLoading: true });
     this.itemsService
       .getItems(yearMonth)
       .pipe(
         finalize(() => {
           this.loadingService.setLoadingStatus({ fullPageLoading: false });
-        })
+        }),
       )
       .subscribe();
   }

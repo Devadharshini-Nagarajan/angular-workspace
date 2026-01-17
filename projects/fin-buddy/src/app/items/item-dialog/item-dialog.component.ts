@@ -1,6 +1,6 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ItemsService } from '../items.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { tap, catchError, finalize } from 'rxjs';
+import { catchError, finalize } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { CategoriesService } from '../../categories/categories.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -43,16 +43,16 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   styleUrl: './item-dialog.component.scss',
   providers: [provideNativeDateAdapter()],
 })
-export class ItemDialogComponent {
+export class ItemDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
-  readonly data = inject<any>(MAT_DIALOG_DATA);
+  readonly data = inject(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
   private itemService = inject(ItemsService);
   public categoriesService = inject(CategoriesService);
 
-  form!: any;
-  apiError: string = '';
-  loading: boolean = false;
+  form!: FormGroup;
+  apiError = '';
+  loading = false;
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -70,7 +70,6 @@ export class ItemDialogComponent {
       return;
     }
     this.loading = true;
-    const occurredAt = this.form.get('occurredAt')?.value as Date | null;
     const req = this.data.isEdit
       ? this.itemService.updateItem({
           ...this.form.value,
@@ -83,19 +82,16 @@ export class ItemDialogComponent {
 
     req
       .pipe(
-        tap((response: any) => {
-          console.log('Item saved successfully:', response);
-        }),
-        catchError((error: any) => {
+        catchError((error) => {
           this.apiError = error.error?.response.message || 'An error occurred.';
           return [];
         }),
         finalize(() => {
           this.loading = false;
           this.dialogRef.close();
-        })
+        }),
       )
-      .subscribe((response: any) => {
+      .subscribe((response) => {
         this.dialogRef.close(response);
       });
   }

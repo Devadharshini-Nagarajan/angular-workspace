@@ -4,11 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start:finbuddy": "ng serve finBuddy --configuration development",
-    "build": "ng build",
+    "build": "npm run build:finbuddy && npm run build:shared",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
+    "build:finbuddy": "ng build finBuddy",
+    "lint:finbuddy": "ng lint finBuddy",
+    "build:shared": "ng build shared",
+    "lint:shared": "ng lint shared",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "prepare": "husky"

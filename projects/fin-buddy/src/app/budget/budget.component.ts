@@ -78,7 +78,7 @@ export class BudgetComponent implements OnInit, OnDestroy {
       (sum: number, bc: BudgetCategory) => sum + Number(bc.limit || 0),
       0,
     );
-    return savings + totalCategoryLimit > income;
+    return savings + totalCategoryLimit !== income;
   });
 
   constructor() {

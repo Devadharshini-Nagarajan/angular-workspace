@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../auth.service';
 import { catchError, finalize, tap, throwError } from 'rxjs';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../../utils/loading.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class SigninComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private _snackBar = inject(MatSnackBar);
   private loadingService = inject(LoadingService);
 
@@ -53,7 +54,8 @@ export class SigninComponent implements OnInit {
           this._snackBar.open('Sign in successful!', 'Close', {
             duration: 3000,
           });
-          this.router.navigate(['/']);
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+          this.router.navigateByUrl(returnUrl);
         }),
         catchError((error) => {
           this.apiError = error.error?.response.message || 'An error occurred.';

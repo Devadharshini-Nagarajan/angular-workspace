@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     { name: 'Categories', route: '/categories' },
     { name: 'Budget', route: '/budget' },
     { name: 'Items', route: '/items' },
+    { name: 'Insights', route: '/insights' },
   ];
 
   ngOnInit() {

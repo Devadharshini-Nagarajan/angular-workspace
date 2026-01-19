@@ -4,6 +4,7 @@ import { MainComponent } from './main/main.component';
 import { authGuard } from '../../../shared/src/public-api';
 import { BudgetComponent } from './budget/budget.component';
 import { ItemComponent } from './items/item/item.component';
+import { InsightsComponent } from './insights/insights.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,11 @@ export const routes: Routes = [
   {
     path: 'items',
     component: ItemComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'insights',
+    component: InsightsComponent,
     canActivate: [authGuard],
   },
 ];

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { LandingChartsComponent } from './landing-charts/landing-charts.component';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
     MatChipsModule,
     MatButtonModule,
     RouterModule,
+    LandingChartsComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',

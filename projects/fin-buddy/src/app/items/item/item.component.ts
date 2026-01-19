@@ -84,6 +84,7 @@ export class ItemComponent implements OnInit {
 
   ngOnInit() {
     this.setMonthAndYear();
+    this.categoriesService.getCategories().subscribe();
   }
 
   setMonthAndYear(normalizedMonthAndYear?: Moment, datepicker?: MatDatepicker<Moment>) {

@@ -13,64 +13,108 @@ At the moment, the workspace contains **one primary project**:
 
 A Personal Finance & Monthly Budgeting Application
 
+![FinBuddy Landing](FinBuddy.png)
+
 ## Overview
 
-**FinBuddy** is a personal finance and budgeting application built using **Angular, TypeScript, and Angular Material**.  
-The app helps users plan monthly budgets, track expenses by category, and understand their spending patterns in a structured and intuitive way.
+**FinBuddy** is a personal finance and budgeting application built using **Angular, TypeScript, and Angular Material**.
 
-The focus of this project is on **clean architecture**, **scalable design**, and **practical real-world finance use cases**.
+The application helps users:
+
+- Plan monthly budgets
+- Track category-wise spending
+- Visualize expense distribution
+- Generate AI-powered financial insights
+
+The focus of this project is on:
+
+- Clean architecture
+- Scalable feature design
+- State Management
+- Typed API contracts
+- Real-world budgeting workflows
 
 ---
 
 ## Key Features
 
-### 1. Authentication
+### 1️⃣ Authentication
 
-- Secure **JWT-based login**
-- User-specific data isolation (each user sees only their own budgets and categories)
+- Secure **JWT-based authentication**
+- User-specific data isolation
+- Protected routes and API endpoints
 
-### 2. Categories
+### 2️⃣ Categories
 
-- Users manage their own list of spending categories
+- Users manage their own spending categories
 - Categories are reusable across months
-- Categories can be activated or archived (instead of deleted)
+- Categories can be activated or archived (instead of permanent deletion)
 
-### 3. Monthly Budgets
+### 3️⃣ Monthly Budgets
 
 - Budgets are created per month (`YYYY-MM`)
 - Each month includes:
   - Monthly income
   - Optional savings target
   - Spending limits per category
+- If a previous month exists, category limits are intelligently cloned
 
-### 4. Expense Tracking (Items)
+### 4️⃣ Expense Tracking (Items)
 
-- Users can add expenses for each month
-- Each expense includes:
-  - Date of purchase
-  - Category
-  - Amount
-  - Item name
-  - Optional merchant and notes
-- Expenses are used to calculate category-wise and monthly totals
+Users can log monthly expenses with:
+
+- Date of purchase
+- Category
+- Amount
+- Item name
+- Optional merchant
+- Optional notes
+
+Expenses dynamically update budget tracking and analytics.
+
+### 5️⃣ 📊 Monthly Charts & Visual Insights
+
+FinBuddy includes interactive charts to help users understand their spending patterns:
+
+- **Bar Chart** → Category-wise monthly expense comparison
+- **Pie Chart** → Expense distribution across categories
+
+Charts update dynamically based on the selected month and provide:
+
+- Clear breakdown of spending proportions
+- Overspending visibility
+- Visual comparison of spending behavior
+
+### 6️⃣ 🤖 AI-Powered Monthly Insights
+
+FinBuddy integrates **OpenAI's `gpt-4o-mini` model** to generate intelligent monthly summaries.
+
+Using structured data from:
+
+- Monthly budget
+- Category limits
+- Actual expenses
+
+The system generates:
+
+- Natural-language financial summaries
+- Overspending analysis
+- Savings behavior insights
+- Suggestions for improvement
 
 ---
 
 ## Planned Enhancements (Work in Progress)
 
-### 1. AI-Powered Monthly Insights
+### 1. AI-Chat Interface
 
-- Generate monthly summaries based on spending behavior
-- Provide AI-driven suggestions on savings and spending habits
+Conversational interface to ask:
 
-### 2. AI Chat Interface
+- “How did I perform this month?”
+- “Where am I overspending?”
+- “How can I optimize my budget?”
 
-- Chat-style interface to ask questions such as:
-  - “How did I do this month?”
-  - “Where am I overspending?”
-  - “How can I plan better next month?”
-
-### 3. Receipt Upload & Auto-Expense Creation
+### 2. Receipt Upload & Auto-Expense Creation
 
 - Upload receipt images directly
 - Extract expense details from receipts
@@ -87,6 +131,8 @@ The focus of this project is on **clean architecture**, **scalable design**, and
 - Angular Material
 - Reactive Forms
 - Angular Signals
+- NgRx (Store & Effects)
+- RxJS
 
 ### Backend
 
@@ -106,6 +152,8 @@ The focus of this project is on **clean architecture**, **scalable design**, and
 - Typed APIs and state management
 - Scalable structure suitable for future features like AI integration
 - Designed with real-world budgeting workflows in mind
+- Configured automated pre-commit checks (linting, formatting, and type validation) to enforce consistent code quality before merges
+- Established a structured developer pull request workflow with mandatory reviews and CI validation
 
 ---
 

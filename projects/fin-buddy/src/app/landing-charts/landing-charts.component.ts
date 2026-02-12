@@ -1,9 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 import { NgIf } from '@angular/common';
-import { BudgetService } from '../../budget/budget.service';
+import { BudgetService } from '../budget/budget.service';
 import { toYearMonth } from 'shared';
 import { Chart, registerables } from 'chart.js';
 
@@ -22,6 +22,7 @@ interface chartData {
   styleUrl: './landing-charts.component.scss',
 })
 export class LandingChartsComponent implements OnInit {
+  monthKey = input<string>('');
   private http = inject(HttpClient);
   private budgetService = inject(BudgetService);
 
@@ -66,7 +67,7 @@ export class LandingChartsComponent implements OnInit {
 
   ngOnInit() {
     const mk = toYearMonth();
-    this.fetchCharts(mk);
+    this.fetchCharts(this.monthKey() ? this.monthKey() : mk);
   }
 
   fetchCharts(monthKey: string) {

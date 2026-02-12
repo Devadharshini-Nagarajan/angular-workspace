@@ -20,6 +20,22 @@ export class ItemsService {
     );
   }
 
+  createItemEffect(body: Item): Observable<Item> {
+    return this.http.post<Item>(`http://localhost:3000/api/items`, body);
+  }
+
+  updateItemEffect(body: Item): Observable<Item> {
+    return this.http.patch<Item>(`http://localhost:3000/api/items`, body);
+  }
+
+  deleteItemEffect(id: string): Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/api/items/${id}`);
+  }
+
+  getItemsEffect(monthKey: string): Observable<Item[]> {
+    return this.http.get<Item[]>(`http://localhost:3000/api/items/${monthKey}`);
+  }
+
   createItem(body: Item): Observable<Item> {
     return this.http.post<Item>(`http://localhost:3000/api/items`, body).pipe(
       tap((data: Item) => {

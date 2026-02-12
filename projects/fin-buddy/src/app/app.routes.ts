@@ -29,6 +29,10 @@ export const routes: Routes = [
     path: 'items',
     component: ItemComponent,
     canActivate: [authGuard],
+    // providers: [
+    //   provideState({ name: itemsFeatureKey, reducer: itemsReducer }),
+    //   provideEffects([ItemsEffects]),
+    // ]
   },
   {
     path: 'insights',

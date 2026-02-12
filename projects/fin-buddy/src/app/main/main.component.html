@@ -48,7 +48,16 @@
     </div>
 
     <div class="hero-right" aria-hidden="true">
-      <!-- add image later -->
+      <div class="carousel">
+        @for (img of carouselImages; track img; let i = $index) {
+          <img
+            [src]="img"
+            class="carousel-image"
+            [class.active]="i === currentIndex"
+            alt="FinBuddy screenshot"
+          />
+        }
+      </div>
     </div>
   </div>
 

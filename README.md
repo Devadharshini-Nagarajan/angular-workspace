@@ -120,6 +120,10 @@ Conversational interface to ask:
 - Extract expense details from receipts
 - Automatically create expense entries in the database
 
+### 3. Implement OAuth
+
+- Add OAuth2
+
 ---
 
 ## Tech Stack

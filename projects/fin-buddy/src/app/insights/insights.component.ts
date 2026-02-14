@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf, NgFor } from '@angular/common';
 import { toYearMonth } from 'shared';
 import { InsightsService } from './insights.service';
 import { Insight, InsightsRequest } from './insights.model';
@@ -24,8 +23,6 @@ type QuestionKey =
     MatCardModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgIf,
-    NgFor,
   ],
   templateUrl: './insights.component.html',
   styleUrl: './insights.component.scss',

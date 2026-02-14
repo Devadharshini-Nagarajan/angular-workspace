@@ -1,18 +1,83 @@
 .example-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height: 100vh;
+  background: #f6f8fc;
 }
 
-.example-events {
-  width: 300px;
-  height: 200px;
-  overflow: auto;
-  border: 1px solid #555;
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
 }
 
 mat-sidenav {
-  width: 200px;
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+mat-list {
+  padding: 10px 10px;
+}
+
+mat-list-item {
+  border-radius: 12px;
+  margin: 6px 4px;
+  padding-left: 10px;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    transform 140ms ease;
+}
+
+mat-list-item:hover {
+  background: rgba(25, 118, 210, 0.08);
+}
+
+mat-divider {
+  opacity: 0.35;
+  margin: 2px 6px;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #ffffff;
+  color: rgba(15, 23, 42, 0.92);
+
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+// Menu item button
+button[mat-icon-button] {
+  border-radius: 12px;
+  transition: background 140ms ease;
+}
+
+button[mat-icon-button]:hover {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+mat-toolbar span {
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  font-size: 18px;
+  color: rgba(15, 23, 42, 0.92);
+}
+
+mat-toolbar button[mat-button] {
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.content {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+
+  background:
+    radial-gradient(900px 320px at 15% 0%, rgba(25, 118, 210, 0.1), transparent 60%), #ffffff;
 }

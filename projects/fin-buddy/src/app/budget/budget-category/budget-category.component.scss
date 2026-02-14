@@ -1,0 +1,131 @@
+.full-width {
+  width: 100%;
+}
+
+.bc-card {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  background:
+    radial-gradient(900px 320px at 15% 0%, rgba(25, 118, 210, 0.1), transparent 60%), #ffffff;
+}
+
+.bc-header {
+  padding-bottom: 0;
+}
+
+:host ::ng-deep .bc-card .mat-mdc-card-title {
+  font-weight: 800;
+}
+
+.bc-form {
+  margin-top: 10px;
+}
+
+.bc-list {
+  display: grid;
+  gap: 12px;
+}
+
+/* each row looks like a clean panel */
+.bc-row {
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.bc-name {
+  font-weight: 800;
+  font-size: 14px;
+  color: rgba(15, 23, 42, 0.92);
+}
+
+.bc-desc {
+  margin-top: 2px;
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.65);
+  line-height: 1.35;
+}
+
+.bc-meta {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.meta-label {
+  color: rgba(15, 23, 42, 0.55);
+}
+
+.status-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.18);
+  color: rgba(21, 128, 61, 0.95);
+  font-weight: 700;
+}
+
+.status-pill.inactive {
+  background: rgba(148, 163, 184, 0.18);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  color: rgba(15, 23, 42, 0.65);
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.primary-btn {
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 750;
+}
+
+/* Divider */
+.bc-divider {
+  margin: 18px 0;
+  opacity: 0.45;
+}
+
+/* Add callout */
+.add-callout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(25, 118, 210, 0.25);
+  background: rgba(25, 118, 210, 0.06);
+}
+
+.add-callout mat-icon {
+  color: rgba(25, 118, 210, 0.95);
+}
+
+.add-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-title {
+  font-weight: 800;
+  font-size: 13px;
+  margin-bottom: 2px;
+  color: rgba(15, 23, 42, 0.88);
+}
+
+.add-subtitle {
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.68);
+}
+
+.add-btn {
+  border-radius: 12px;
+  font-weight: 700;
+}

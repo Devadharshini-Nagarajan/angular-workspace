@@ -1,0 +1,56 @@
+<mat-card appearance="outlined" class="insights-card">
+  <mat-card-title class="p-3 insights-title">Insights(AI)</mat-card-title>
+  <mat-card-content>
+    <div class="insights-controls">
+      <mat-form-field appearance="fill" class="insights-form-field">
+        <mat-label>Question</mat-label>
+        <mat-select [formControl]="question">
+          @for (q of questions; track q) {
+            <mat-option [value]="q.key">
+              {{ q.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="insights-ask-btn"
+        (click)="askInsight()"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Generating…' : 'Ask' }}
+      </button>
+    </div>
+
+    @if (error) {
+      <div class="insights-error">
+        {{ error }}
+      </div>
+    }
+
+    @if (insight) {
+      <mat-card appearance="outlined" class="insights-result-card">
+        <mat-card-title class="insights-result-title">{{ insight.title }}</mat-card-title>
+        <mat-card-content class="insights-result-content">
+          <p class="insights-summary">{{ insight.summary }}</p>
+
+          <h4 class="insights-section-title">Highlights</h4>
+          <ul class="insights-list">
+            @for (h of insight.highlights; track h) {
+              <li>{{ h }}</li>
+            }
+          </ul>
+
+          <h4 class="insights-section-title">Warnings</h4>
+          <ul class="insights-list insights-warnings">
+            @for (w of insight.warnings; track w) {
+              <li>{{ w }}</li>
+            }
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    }
+  </mat-card-content>
+</mat-card>

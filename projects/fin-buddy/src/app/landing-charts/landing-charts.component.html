@@ -1,0 +1,18 @@
+@if (loading) {
+  <div>Loading charts…</div>
+}
+
+@if (!loading && apiData) {
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Category Budget Usage</h3>
+      <canvas baseChart [type]="'bar'" [data]="stackedData" [options]="stackedOptions"></canvas>
+      <p class="hint">Hover a bar to see remaining amount left.</p>
+    </div>
+    <div class="chart-card">
+      <h3>Income Breakdown</h3>
+      <canvas baseChart [type]="'pie'" [data]="pieData" [options]="pieOptions"></canvas>
+      <p class="hint">Spent vs remaining for the selected month.</p>
+    </div>
+  </div>
+}

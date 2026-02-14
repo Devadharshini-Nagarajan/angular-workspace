@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ItemsService } from '../items.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   MatDialogRef,
@@ -9,18 +8,20 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { CategoryDialogComponent } from '../../categories/category-dialog/category-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { catchError, finalize } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { CategoriesService } from '../../categories/categories.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { Store } from '@ngrx/store';
+import * as ItemsSelectors from '../state/items.selectors';
+import { ItemsActions } from '../state/items.actions';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-item-dialog',
@@ -38,21 +39,22 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatDatepickerModule,
+    CommonModule,
   ],
   templateUrl: './item-dialog.component.html',
   styleUrl: './item-dialog.component.scss',
   providers: [provideNativeDateAdapter()],
 })
 export class ItemDialogComponent implements OnInit {
-  readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
+  private store = inject(Store);
+  readonly dialogRef = inject(MatDialogRef<ItemDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
-  private itemService = inject(ItemsService);
   public categoriesService = inject(CategoriesService);
 
   form!: FormGroup;
-  apiError = '';
-  loading = false;
+  error$ = this.store.select(ItemsSelectors.selectError);
+  loading$ = this.store.select(ItemsSelectors.selectLoading);
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -69,30 +71,21 @@ export class ItemDialogComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    this.loading = true;
-    const req = this.data.isEdit
-      ? this.itemService.updateItem({
+    const payload = this.data.isEdit
+      ? {
           ...this.form.value,
           id: this.data?.element?.id,
-        })
-      : this.itemService.createItem({
+        }
+      : {
           ...this.form.value,
           occurredAt: this.form.value.occurredAt.toISOString(),
-        });
+        };
 
-    req
-      .pipe(
-        catchError((error) => {
-          this.apiError = error.error?.response.message || 'An error occurred.';
-          return [];
-        }),
-        finalize(() => {
-          this.loading = false;
-          this.dialogRef.close();
-        }),
-      )
-      .subscribe((response) => {
-        this.dialogRef.close(response);
-      });
+    this.store.dispatch(
+      this.data.isEdit
+        ? ItemsActions.updateItem({ item: payload })
+        : ItemsActions.createItem({ item: payload }),
+    );
+    this.dialogRef.close();
   }
 }

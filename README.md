@@ -1,65 +1,201 @@
-# AngularWorkspace
+# Angular Workspace 🅰️
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.13.
+A collection of Angular applications and experiments
 
-## Development server
+## Overview
 
-To start a local development server, run:
+This repository is an **Angular workspace** designed to host multiple Angular-based applications and experiments over time.  
+Each project in this workspace focuses on different concepts, architectures, and real-world use cases built using Angular.
+
+At the moment, the workspace contains **one primary project**:
+
+# FinBuddy 💸
+
+A Personal Finance & Monthly Budgeting Application
+
+![FinBuddy Landing](FinBuddy.png)
+
+## Overview
+
+**FinBuddy** is a personal finance and budgeting application built using **Angular, TypeScript, and Angular Material**.
+
+The application helps users:
+
+- Plan monthly budgets
+- Track category-wise spending
+- Visualize expense distribution
+- Generate AI-powered financial insights
+
+The focus of this project is on:
+
+- Clean architecture
+- Scalable feature design
+- State Management
+- Typed API contracts
+- Real-world budgeting workflows
+
+---
+
+## Key Features
+
+### 1️⃣ Authentication
+
+- Secure **JWT-based authentication**
+- User-specific data isolation
+- Protected routes and API endpoints
+
+### 2️⃣ Categories
+
+- Users manage their own spending categories
+- Categories are reusable across months
+- Categories can be activated or archived (instead of permanent deletion)
+
+### 3️⃣ Monthly Budgets
+
+- Budgets are created per month (`YYYY-MM`)
+- Each month includes:
+  - Monthly income
+  - Optional savings target
+  - Spending limits per category
+- If a previous month exists, category limits are intelligently cloned
+
+### 4️⃣ Expense Tracking (Items)
+
+Users can log monthly expenses with:
+
+- Date of purchase
+- Category
+- Amount
+- Item name
+- Optional merchant
+- Optional notes
+
+Expenses dynamically update budget tracking and analytics.
+
+### 5️⃣ 📊 Monthly Charts & Visual Insights
+
+FinBuddy includes interactive charts to help users understand their spending patterns:
+
+- **Bar Chart** → Category-wise monthly expense comparison
+- **Pie Chart** → Expense distribution across categories
+
+Charts update dynamically based on the selected month and provide:
+
+- Clear breakdown of spending proportions
+- Overspending visibility
+- Visual comparison of spending behavior
+
+### 6️⃣ 🤖 AI-Powered Monthly Insights
+
+FinBuddy integrates **OpenAI's `gpt-4o-mini` model** to generate intelligent monthly summaries.
+
+Using structured data from:
+
+- Monthly budget
+- Category limits
+- Actual expenses
+
+The system generates:
+
+- Natural-language financial summaries
+- Overspending analysis
+- Savings behavior insights
+- Suggestions for improvement
+
+---
+
+## Planned Enhancements (Work in Progress)
+
+### 1. AI-Chat Interface
+
+Conversational interface to ask:
+
+- “How did I perform this month?”
+- “Where am I overspending?”
+- “How can I optimize my budget?”
+
+### 2. Receipt Upload & Auto-Expense Creation
+
+- Upload receipt images directly
+- Extract expense details from receipts
+- Automatically create expense entries in the database
+
+### 3. Implement OAuth
+
+- Add OAuth2
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- Angular
+- TypeScript
+- Angular Material
+- Reactive Forms
+- Angular Signals
+- NgRx (Store & Effects)
+- RxJS
+
+### Backend
+
+- Node.js
+- REST APIs
+- JWT Authentication
+- Prisma ORM
+- PostgreSQL
+
+> The backend implementation and database schema are available in the GitHub repository: https://github.com/Devadharshini-Nagarajan/FinBuddy-NestJS
+
+---
+
+## Architecture Highlights
+
+- Strong separation between **frontend models** and **database schema**
+- Typed APIs and state management
+- Scalable structure suitable for future features like AI integration
+- Designed with real-world budgeting workflows in mind
+- Configured automated pre-commit checks (linting, formatting, and type validation) to enforce consistent code quality before merges
+- Established a structured developer pull request workflow with mandatory reviews and CI validation
+
+---
+
+## Repository
+
+Backend and related services can be found in the GitHub repository associated with this project.
+
+---
+
+## Steps to Explore the Application
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- npm
+- Angular CLI
+
+### 1. Clone the Repository
 
 ```bash
-ng serve
+git clone <repository-url>
+cd angular-workspace
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 2. Install Dependencies
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 3. Start the FinBuddy Application
 
 ```bash
-ng generate --help
+npm run start:finbuddy
 ```
 
-## Building
-
-To build the project run:
+### 4. Access the Application
 
 ```bash
-ng build
+http://localhost:4200
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Must practice
-
-### Chapter 2:
-component attribute selector
-model - 2 way binding
-specify input output in component decorator
-viechild and viewchildren signals
-contentchild and contentchildren
-

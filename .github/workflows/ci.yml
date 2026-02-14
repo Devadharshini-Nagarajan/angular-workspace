@@ -2,12 +2,10 @@ name: CI
 
 on:
   pull_request:
-    branches: ['project'] # PR target branch
-  push:
-    branches: ['project'] # runs after merge too
+    branches: ['project/finbuddy', 'develop']
 
 jobs:
-  lint-build:
+  lint-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,7 +18,7 @@ jobs:
           cache: 'npm'
 
       - name: Install
-        run: npm ci
+        run: npm install
 
       - name: Lint
         run: npm run lint

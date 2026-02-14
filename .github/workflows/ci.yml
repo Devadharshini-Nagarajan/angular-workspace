@@ -2,9 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: ['project/finbuddy']
-  push:
-    branches: ['project/finbuddy']
+    branches: ['project/finbuddy', 'develop']
 
 jobs:
   lint-and-build:

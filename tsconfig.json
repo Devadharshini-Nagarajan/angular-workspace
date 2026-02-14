@@ -14,10 +14,10 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "paths": {
-      "shared": [
-        "./dist/shared"
-      ]
+      "shared": ["projects/shared/src/public-api.ts"],
+      "shared/*": ["projects/shared/src/*"]
     },
     "importHelpers": true,
     "target": "ES2022",

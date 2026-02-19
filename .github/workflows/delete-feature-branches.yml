@@ -3,6 +3,8 @@ name: Delete feature branches after merge
 on:
   pull_request:
     types: [closed]
+    branches:
+      - 'project/**'
 
 permissions:
   contents: write
@@ -22,7 +24,7 @@ jobs:
             const repo = context.repo.repo;
             const ref = context.payload.pull_request.head.ref;
 
-            // Safety guard: never delete protected long-lived branches
+            // never delete protected branches
             const protectedBranches = new Set(['main', 'project', 'develop']);
             if (protectedBranches.has(ref)) {
               core.info(`Skip deleting protected branch: ${ref}`);

@@ -1,0 +1,139 @@
+<!-- <mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Monthly Category</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="categoryForm" class="mt-3">
+      <div formArrayName="rows">
+        @for (row of rowsFA.controls; track row; let i = $index) {
+          <div [formGroupName]="i" class="row">
+            <div class="col-md-6">
+              <div class="fw-bold">
+                {{ row?.get('name')?.value }}
+              </div>
+              <div class="text-muted small">
+                {{ row?.get('description')?.value }}
+              </div>
+              <div class="small">
+                Active:
+                {{ row?.get('isActive')?.value }}
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field class="full-width">
+                <mat-label>Limit</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  formControlName="limit"
+                  [disabled]="row.get('isActive')?.value"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        }
+      </div>
+    </form>
+    <div class="row d-flex justify-content-end">
+      <button
+        mat-flat-button
+        class="w-auto"
+        color="primary"
+        (click)="onUpdateCategoryLimit()"
+        [disabled]="categoryForm.invalid"
+      >
+        Update Category Limits
+      </button>
+    </div>
+
+    <mat-divider class="m-3"></mat-divider>
+    @if (addActiveCategories.length) {
+      <div>
+        You have {{ addActiveCategories.length }} more active categories which doesn't have a limit
+        set. Click to
+        <button mat-stroked-button color="primary" (click)="openAddCategoryDialog()">Add!</button>
+      </div>
+    }
+  </mat-card-content>
+</mat-card> -->
+
+<mat-card appearance="outlined" class="bc-card">
+  <mat-card-header class="bc-header">
+    <mat-card-title>Monthly Category</mat-card-title>
+    <mat-card-subtitle>Set category-wise limits for this month</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="categoryForm" class="bc-form">
+      <div formArrayName="rows" class="bc-list">
+        @for (row of rowsFA.controls; track row; let i = $index) {
+          <div [formGroupName]="i" class="bc-row row align-items-center">
+            <div class="col-md-6">
+              <div class="bc-name">{{ row?.get('name')?.value }}</div>
+
+              @if (row?.get('description')?.value) {
+                <div class="bc-desc">{{ row?.get('description')?.value }}</div>
+              }
+
+              <div class="bc-meta">
+                <span class="meta-label">Status:</span>
+                <span class="status-pill" [class.inactive]="!row.get('isActive')?.value">
+                  {{ row?.get('isActive')?.value ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Limit</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  formControlName="limit"
+                  [disabled]="row.get('isActive')?.value"
+                />
+                <mat-hint>Monthly cap for this category</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        }
+      </div>
+    </form>
+
+    <div class="actions-row">
+      <button
+        mat-flat-button
+        color="primary"
+        class="primary-btn"
+        (click)="onUpdateCategoryLimit()"
+        [disabled]="categoryForm.invalid || !currbudget()"
+      >
+        Update Category Limits
+      </button>
+    </div>
+
+    <mat-divider class="bc-divider"></mat-divider>
+
+    @if (addActiveCategories.length) {
+      <div class="add-callout">
+        <mat-icon aria-hidden="true">playlist_add</mat-icon>
+        <div class="add-text">
+          <div class="add-title">More categories available</div>
+          <div class="add-subtitle">
+            You have {{ addActiveCategories.length }} active categories without limits.
+          </div>
+        </div>
+
+        <button
+          mat-stroked-button
+          color="primary"
+          class="add-btn"
+          (click)="openAddCategoryDialog()"
+        >
+          Add
+        </button>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

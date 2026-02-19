@@ -1,0 +1,41 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+    <mat-list>
+      @for (item of items(); track item) {
+        <mat-list-item (click)="onItemClick(item.route)">{{ item.name }}</mat-list-item>
+        <mat-divider></mat-divider>
+      }
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      @if (authService.isAuthenticated$ | async) {
+        <button
+          mat-icon-button
+          class="example-icon hide-on-mobile"
+          aria-label="Example icon-button with menu icon"
+          (click)="toggleOpened()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+
+      <div class="d-flex align-items-center w-100">
+        <span [routerLink]="'/'">FinBuddy</span>
+
+        <div class="ms-auto">
+          @if (!(authService.isAuthenticated$ | async)) {
+            <button mat-button [routerLink]="'/auth/signin'">Sign in</button>
+          } @else {
+            <button mat-button (click)="onSignOut()">Sign out</button>
+          }
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <div class="m-3 content">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

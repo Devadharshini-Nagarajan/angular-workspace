@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>{{ data?.element?.name }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="category-form">
+    <div class="row pb-3">
+      <mat-error>{{ apiError }}</mat-error>
+    </div>
+    <div class="row">
+      @if(!data?.isEdit) {
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          name="name"
+          formControlName="name"
+          [readonly]="data?.isEdit"
+        />
+      </mat-form-field>
+      }
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          name="description"
+          rows="4"
+          formControlName="description"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="mt-2">
+        <mat-slide-toggle name="isActive" formControlName="isActive"
+          >Is Active</mat-slide-toggle
+        >
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Close</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="form.invalid || loading"
+    (click)="onSave()"
+  >
+    {{ loading ? "Saving..." : "Save" }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,67 @@
+<div class="home-shell">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="badge">
+        <mat-icon aria-hidden="true">account_balance_wallet</mat-icon>
+      </div>
+
+      @if (authService.isAuthenticated$ | async) {
+        <h2 class="title">Welcome back to FinBuddy</h2>
+        <p class="subtitle">
+          Your monthly budget hub — track spending, stay under limits, and keep a clear view of your
+          money.
+        </p>
+
+        <div class="cta-row">
+          <button mat-flat-button color="primary" routerLink="/categories">Check Categories</button>
+          <button mat-flat-button color="primary" routerLink="/budget">Go to Budget</button>
+          <button mat-flat-button color="primary" routerLink="/items">Add an Item</button>
+        </div>
+
+        <div class="chips">
+          <mat-chip-set aria-label="Highlights">
+            <mat-chip>Monthly budgets</mat-chip>
+            <mat-chip>Category limits</mat-chip>
+            <mat-chip>Expense tracking</mat-chip>
+          </mat-chip-set>
+        </div>
+      } @else {
+        <h2 class="title">FinBuddy helps you budget with clarity</h2>
+        <p class="subtitle">
+          Create categories, set monthly limits, and log expenses in seconds — all in one clean
+          dashboard.
+        </p>
+
+        <div class="cta-row">
+          <button mat-flat-button color="primary" routerLink="/auth/signup">Create account</button>
+          <button mat-flat-button color="primary" routerLink="/auth/signin">Sign in</button>
+        </div>
+
+        <div class="chips">
+          <mat-chip-set aria-label="Highlights">
+            <mat-chip>Simple UI</mat-chip>
+            <mat-chip>Fast monthly setup</mat-chip>
+            <mat-chip>Track spending</mat-chip>
+          </mat-chip-set>
+        </div>
+      }
+    </div>
+
+    <div class="hero-right" aria-hidden="true">
+      <div class="carousel">
+        @for (img of carouselImages; track img; let i = $index) {
+          <img
+            [src]="img"
+            class="carousel-image"
+            [class.active]="i === currentIndex"
+            alt="FinBuddy screenshot"
+          />
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <app-landing-charts />
+  </div>
+</div>

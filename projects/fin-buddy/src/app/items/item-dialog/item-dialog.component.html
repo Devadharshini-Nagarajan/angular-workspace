@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>{{ data?.element?.name }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="category-form">
+    <div class="row pb-3">
+      <mat-error>{{ error$ | async }}</mat-error>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput name="name" formControlName="name" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Note</mat-label>
+        <textarea matInput name="note" rows="4" formControlName="note"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" name="amount" formControlName="amount" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Merchant</mat-label>
+        <input matInput name="merchant" formControlName="merchant" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="mt-2">
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="categoryId">
+            @for (category of categoriesService._categoriesList(); track category) {
+              <mat-option [value]="category.id">{{ category.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="mt-2">
+        <mat-form-field>
+          <mat-label>Occured at</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="occurredAt" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Close</button>
+  @let loading = loading$ | async;
+  <button mat-flat-button color="primary" [disabled]="form.invalid || loading" (click)="onSave()">
+    {{ loading ? 'Saving...' : 'Save' }}
+  </button>
+</mat-dialog-actions>

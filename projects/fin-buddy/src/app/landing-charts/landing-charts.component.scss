@@ -1,0 +1,30 @@
+.charts-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  margin: 15px;
+
+  //   @media (min-width: 900px) {
+  //     grid-template-columns: 1fr 1fr;
+  //   }
+}
+
+.chart-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  padding: 14px;
+  background: #fff;
+  width: 600px;
+
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .hint {
+    margin: 8px 0 0 0;
+    font-size: 0.85rem;
+    color: #555;
+  }
+}

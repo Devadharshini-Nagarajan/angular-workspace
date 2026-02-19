@@ -1,0 +1,100 @@
+.auth-shell {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+  padding: 20px 12px;
+  background:
+    radial-gradient(900px 320px at 20% 0%, rgba(25, 118, 210, 0.1), transparent 60%), #f6f8fc;
+}
+
+.auth-card-wrap {
+  width: 100%;
+  max-width: 520px;
+}
+
+.auth-card {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.auth-header {
+  padding: 18px 18px 10px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.auth-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(25, 118, 210, 0.12);
+  border: 1px solid rgba(25, 118, 210, 0.18);
+}
+
+.auth-badge mat-icon {
+  color: rgb(25, 118, 210);
+}
+
+.auth-title {
+  font-size: 20px;
+  font-weight: 750;
+  margin: 0;
+}
+
+.auth-subtitle {
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.65);
+  margin-top: 2px;
+}
+
+.auth-form {
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.api-error {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  background: rgba(239, 68, 68, 0.08);
+  color: rgba(127, 29, 29, 0.95);
+  font-size: 13px;
+}
+
+.submit-btn {
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.auth-footer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.7);
+  margin-top: 2px;
+}
+
+.auth-link {
+  color: rgb(25, 118, 210);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}

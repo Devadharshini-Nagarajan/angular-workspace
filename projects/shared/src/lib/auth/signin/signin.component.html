@@ -1,0 +1,68 @@
+<div class="auth-shell">
+  <div class="auth-card-wrap">
+    <mat-card class="auth-card" appearance="outlined">
+      <mat-card-header class="auth-header">
+        <div class="auth-badge" aria-hidden="true">
+          <mat-icon>lock</mat-icon>
+        </div>
+        <div>
+          <mat-card-title class="auth-title">Sign In</mat-card-title>
+          <div class="auth-subtitle">Welcome back — let's get you in.</div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+          @if (apiError) {
+            <div class="api-error">
+              <mat-icon aria-hidden="true">error_outline</mat-icon>
+              <span>{{ apiError }}</span>
+            </div>
+          }
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" autocomplete="email" />
+            @if (form.get('email')?.invalid && form.get('email')?.hasError('required')) {
+              <mat-error>Email is required</mat-error>
+            }
+            @if (form.get('email')?.invalid && form.get('email')?.hasError('email')) {
+              <mat-error>Email is invalid</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="password"
+              autocomplete="current-password"
+            />
+            @if (form.get('password')?.invalid && form.get('password')?.hasError('required')) {
+              <mat-error>Password is required</mat-error>
+            }
+            @if (form.get('password')?.invalid && form.get('password')?.hasError('minlength')) {
+              <mat-error>Password must be at least 6 characters</mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            class="submit-btn"
+            [disabled]="form.invalid"
+          >
+            Sign in
+          </button>
+
+          <div class="auth-footer">
+            <span>New here?</span>
+            <a class="auth-link" [routerLink]="'/auth/signup'">Create an account</a>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
